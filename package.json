@@ -1,0 +1,32 @@
+{
+  "name": "mongonewsscrapper",
+  "version": "1.0.0",
+  "description": "Scrapping news sites and using mongodb and mongoose to allow users to view and leave comments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdweston1995/MongoNewsScrapper.git"
+  },
+  "keywords": [
+    "mongo",
+    "mongdb",
+    "mongoose"
+  ],
+  "author": "rdweston1995",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdweston1995/MongoNewsScrapper/issues"
+  },
+  "homepage": "https://github.com/rdweston1995/MongoNewsScrapper#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongoose": "^5.6.6",
+    "morgan": "^1.9.1"
+  }
+}
