@@ -23,6 +23,57 @@ app.use(express.static(public));
 mongoose.connect("mongodb://localhost/mongonewsscrapper", {useNewUrlParse: true});
 
 //Routes
+app.get("/scrape", function(req, res){
+    axios.get("http://www.reddit.com/r/news").then(function(response){
+        var $ = cheerio.load(response.data);
+
+        $("").each(function(i, element){
+            var result = {};
+
+            //Save title
+
+            //Save Link
+
+            db.Article.create(result)
+                .then(function(dbArticle){
+                    console.log(dbArticle);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+        });
+
+        res.send("Scrape Complete");
+    });
+});
+
+app.get("/articles", function(req, res){
+    db.Artcile.find({}, function(err, found){
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(found);
+        }
+    });
+});
+
+app.get("articles/:id", function(req, res) {
+    db.Article.findOne({_id: req.params.id}).populate("comment").then(function(dbLibrary){
+        res.json(dbLibrary);
+    }).catch(function(err){
+        res.json(err);
+    });
+});
+
+app.post("/artciles/:id", function(req ,res){
+    db.Comment.create(req.body).then(function(dbComment){
+        return db.Article.findOneAndUpdate({}, {$push: {comments: dbComment._id} }, {new: true}); 
+    }).then(function(dbUser){
+        res.json(dbUser);
+    }).catch(function(err){
+        res.json(err);
+    });
+});
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
