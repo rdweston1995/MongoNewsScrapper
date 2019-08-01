@@ -3,9 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reddit Web Scrapper</title>
+    <style>
+        #articles {
+            display: inline-block;
+            overflow: auto;
+            width: 60%;
+            height 700px;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,7 +23,8 @@
                     <div class="card-body">
                         <h5 class="card-title">World News</h5>
                         <p class="card-text">Add subreddit description later</p>
-                        <a href="/scrape/worldnews" class="btn btn-primary">Get World News</a>
+                        <!-- <a class="btn btn-primary">World News</a> -->
+                        <button class="btn">World News</button>
                     </div>
                 </div>
                 <div class="card" style="width: 18rem;">
@@ -25,7 +32,7 @@
                     <div class="card-body">
                         <h5 class="card-title">News</h5>
                         <p class="card-text">Add subreddit description later</p>
-                        <a href="/scrape/news" class="btn btn-primary">Get American News</a>
+                        <a href="/scrape/news" class="btn btn-primary">News</a>
                     </div>
                 </div>
                 <div class="card" style="width: 18rem;">
@@ -33,7 +40,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Politics</h5>
                         <p class="card-text">Add subreddit description later</p>
-                        <a href="/scrape/politics" class="btn btn-primary">Get American Politics News</a>
+                        <a href="/scrape/politics" class="btn btn-primary">Politics</a>
                     </div>
                 </div>
                 <div class="card" style="width: 18rem;">
@@ -41,12 +48,20 @@
                     <div class="card-body">
                         <h5 class="card-title">Seattle</h5>
                         <p class="card-text">Add subreddit description later</p>
-                        <a href="/scrape/seattle" class="btn btn-primary">Get Seattle News</a>
+                        <a href="/scrape/seattle" class="btn btn-primary">Seattle</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row" id="results">
+            <div id="articles"></div>
+            <div id="comments"></div>
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <srcipt src="app.js"></srcipt>
+
 </body>
 
 </html>

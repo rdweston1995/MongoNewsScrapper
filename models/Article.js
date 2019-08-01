@@ -1,5 +1,5 @@
 //Required modules
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 
 //Reference to the schema constructor
 var Schema = mongoose.Schema;

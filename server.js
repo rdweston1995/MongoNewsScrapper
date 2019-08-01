@@ -6,6 +6,9 @@ var mongoose = require("mongoose");
 var axios  = require("axios");
 var cheerio = require("cheerio");
 
+//Require all models
+var db = require("./models");
+
 var PORT = 3000;
 
 //Initialize Express
@@ -16,23 +19,26 @@ app.use(logger("dev"));
 //Parse request body as JSON
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
-//Make public a statuc folder
-app.use(express.static(public));
+//Make public a static folder
+app.use(express.static("public"));
 
 //Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/mongonewsscrapper", {useNewUrlParse: true});
+mongoose.connect("mongodb://localhost/mongonewsscrapper", {useNewUrlParser: true});
 
 //Routes
 app.get("/scrape/:subreddit", function(req, res){
-    axios.get("http://www.reddit.com/r/" + req.params.subreddit).then(function(response){
+    axios.get("https://old.reddit.com/r/" + req.params.subreddit + "/").then(function(response){
         var $ = cheerio.load(response.data);
-
-        $("").each(function(i, element){
+        console.log(response.data);
+        $("p.title").each(function(i, element){
             var result = {};
 
+            console.log(this);
             //Save title
+            result.title = $(element).text();
 
             //Save Link
+            result.link = $(element).children().attr("href");
 
             db.Article.create(result)
                 .then(function(dbArticle){
@@ -43,34 +49,18 @@ app.get("/scrape/:subreddit", function(req, res){
                 });
         });
 
-        res.send("Scrape Complete");
+        res.send("scrape complete");
     });
 });
 
-app.get("/articles", function(req, res){
-    db.Artcile.find({}, function(err, found){
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(found);
-        }
-    });
-});
-
-app.get("articles/:id", function(req, res) {
-    db.Article.findOne({_id: req.params.id}).populate("comment").then(function(dbLibrary){
-        res.json(dbLibrary);
+app.get("/articles", function(req, res) {
+    console.log("test");
+    // Grab all the documents from the articles collections
+    db.Article.find({}).then(function(dbArticle) {
+        //If they are found send them to the server
+        res.json(dbArticle);
     }).catch(function(err){
-        res.json(err);
-    });
-});
-
-app.post("/artciles/:id", function(req ,res){
-    db.Comment.create(req.body).then(function(dbComment){
-        return db.Article.findOneAndUpdate({}, {$push: {comments: dbComment._id} }, {new: true}); 
-    }).then(function(dbUser){
-        res.json(dbUser);
-    }).catch(function(err){
+        //If theres an error send that to the server
         res.json(err);
     });
 });
