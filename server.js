@@ -23,8 +23,8 @@ app.use(express.static(public));
 mongoose.connect("mongodb://localhost/mongonewsscrapper", {useNewUrlParse: true});
 
 //Routes
-app.get("/scrape", function(req, res){
-    axios.get("http://www.reddit.com/r/news").then(function(response){
+app.get("/scrape/:subreddit", function(req, res){
+    axios.get("http://www.reddit.com/r/" + req.params.subreddit).then(function(response){
         var $ = cheerio.load(response.data);
 
         $("").each(function(i, element){
